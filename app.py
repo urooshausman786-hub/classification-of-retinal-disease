@@ -13,27 +13,18 @@ st.set_page_config(
 )
 
 # -----------------------------
-# Custom CSS with animated gradient and hover effects
+# Custom CSS for purple theme
 # -----------------------------
 st.markdown("""
 <style>
-/* Animated gradient background */
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
+/* Bright gradient background */
 .stApp {
-    background: linear-gradient(-45deg, #e0c3fc, #8ec5fc, #fcd3fc, #d8b4fe);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: linear-gradient(to bottom, #ffffff, #f3e8ff); /* White to very light purple */
     color: #1e293b;
     max-width: 900px;
     margin: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px 40px;
-    transition: background 0.5s ease;
 }
 
 /* Header */
@@ -55,19 +46,13 @@ st.markdown("""
     margin-bottom: 30px;
 }
 
-/* File uploader with gradient and shadow */
+/* File uploader */
 .css-1v0mbdj.edgvbvh3 {
-    border: none;
-    border-radius: 15px;
+    border: 2px dashed #c084fc; /* pastel purple dashed border */
+    border-radius: 12px;
     padding: 25px;
-    background: linear-gradient(to right, #fcd3fc, #d8b4fe);
+    background-color: rgba(255, 255, 255, 0.9);
     color: #1e293b;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.css-1v0mbdj.edgvbvh3:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
 /* Image display */
@@ -76,25 +61,20 @@ st.markdown("""
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-/* Prediction card with hover effect */
+/* Prediction result card (purple-themed) */
 .prediction-card {
-    background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+    background: linear-gradient(to right, #e0c3fc, #8ec5fc); /* soft purple to blue gradient */
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
     font-size: 24px;
     font-weight: 600;
-    color: #1e3a8a; /* dark text */
+    color: #1e3a8a; /* dark blue text for contrast */
     margin-top: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.prediction-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
 
-/* Progress bar */
+/* Confidence progress bar */
 .stProgress > div > div > div {
     background-color: #7c3aed !important; /* purple */
 }
@@ -104,14 +84,14 @@ st.markdown("""
     font-size: 18px;
     background-color: #ede9fe !important; /* pastel light purple */
     color: #7c3aed !important;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------
-# Header & Subtitle in HTML
+# Header & Subtitle in HTML to apply CSS
 # -----------------------------
 st.markdown('<div class="custom-header">🩺 Retinal Disease Classification System</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subtitle">Upload a retinal image to detect possible eye diseases using CNN (MobileNetV2)</div>', unsafe_allow_html=True)
@@ -154,7 +134,7 @@ if uploaded_file:
     pred_class = np.argmax(output_data)
     confidence = output_data[pred_class]
 
-    # Display results in a card
+    # Display results in a purple gradient card
     st.markdown(f"""
         <div class="prediction-card">
             ✅ Predicted Disease: <b>{classes[pred_class]}</b><br>
@@ -164,4 +144,3 @@ if uploaded_file:
 
 else:
     st.info("👁️ Please upload a retinal image to begin diagnosis.")
-
