@@ -13,14 +13,14 @@ st.set_page_config(
 )
 
 # -----------------------------
-# Custom CSS for modern clean UI
+# Custom CSS for bright, clean UI
 # -----------------------------
 st.markdown("""
 <style>
-/* Light gradient background */
+/* Bright background */
 .stApp {
-    background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
-    color: #1f2937; /* Dark text for readability */
+    background: linear-gradient(to bottom, #ffffff, #e0f2fe); /* White to light sky blue */
+    color: #1e293b; /* Dark text for readability */
     max-width: 900px;
     margin: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,16 +29,16 @@ st.markdown("""
 
 /* Header */
 h1 {
-    color: #0f172a;
+    color: #0c4a6e; /* Deep blue */
     text-align: center;
-    font-size: 48px;
+    font-size: 50px;
     font-weight: 700;
     margin-bottom: 5px;
 }
 
 /* Subtitle */
 h3 {
-    color: #334155;
+    color: #1e40af; /* Medium blue */
     text-align: center;
     font-size: 22px;
     font-weight: 500;
@@ -48,37 +48,42 @@ h3 {
 
 /* File uploader */
 .css-1v0mbdj.edgvbvh3 {
-    border: 2px dashed #94a3b8;
+    border: 2px dashed #60a5fa;
     border-radius: 12px;
     padding: 25px;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #1f2937;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
 }
 
 /* Image display */
 .stImage {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-/* Prediction result */
-.prediction {
-    font-size: 26px;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-/* Confidence bar */
-.stProgress > div > div > div {
-    background-color: #2563eb !important; /* Blue progress bar */
-}
-
-/* Success box */
-.stSuccess {
+/* Prediction result card */
+.prediction-card {
+    background-color: #fef3c7; /* Soft yellow */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
     font-size: 24px;
     font-weight: 600;
-    background-color: #d1fae5 !important; /* Light green background */
-    color: #065f46 !important; /* Dark green text */
+    color: #b45309; /* Dark yellow/brown for contrast */
+    margin-top: 20px;
+}
+
+/* Confidence progress bar */
+.stProgress > div > div > div {
+    background-color: #3b82f6 !important; /* Bright blue */
+}
+
+/* Info box */
+.stInfo {
+    font-size: 18px;
+    background-color: #dbeafe !important; /* Light blue */
+    color: #1e40af !important;
     border-radius: 8px;
     padding: 10px;
 }
@@ -129,13 +134,13 @@ if uploaded_file:
     pred_class = np.argmax(output_data)
     confidence = output_data[pred_class]
 
-    # Display results in columns
-    col1, col2 = st.columns([2,1])
-    with col1:
-        st.success(f"✅ Predicted Disease: **{classes[pred_class]}**")
-    with col2:
-        st.progress(int(confidence*100))
-        st.write(f"Confidence: {confidence*100:.2f}%")
+    # Display results in a card
+    st.markdown(f"""
+        <div class="prediction-card">
+            ✅ Predicted Disease: <b>{classes[pred_class]}</b><br>
+            Confidence: {confidence*100:.2f}%
+        </div>
+    """, unsafe_allow_html=True)
 
 else:
     st.info("👁️ Please upload a retinal image to begin diagnosis.")
