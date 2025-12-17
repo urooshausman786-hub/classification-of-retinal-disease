@@ -91,7 +91,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -----------------------------
-# Header & Subtitle in HTML to apply CSS
+# Header & Subtitle
 # -----------------------------
 st.markdown('<div class="custom-header">🩺 Retinal Disease Classification System</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subtitle">Upload a retinal image to detect possible eye diseases using CNN (MobileNetV2)</div>', unsafe_allow_html=True)
@@ -105,21 +105,30 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file:
-    # Display uploaded image
+    # Open image
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Retinal Image", use_column_width=True)
+
+    # Resize image proportionally if too large
+    max_display_width = 500  # max width in pixels
+    w, h = image.size
+    if w > max_display_width:
+        new_height = int(h * (max_display_width / w))
+        image = image.resize((max_display_width, new_height))
+
+    # Display uploaded image
+    st.image(image, caption="Uploaded Retinal Image", use_column_width=False)
 
     st.info("👁️ Running model inference...")
 
     # -----------------------------
-    # Load tflite model
+    # Load TFLite model
     # -----------------------------
     interpreter = tf.lite.Interpreter(model_path="mobilenetv2_eye_disease.tflite")
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    # Preprocess image
+    # Preprocess image for model
     img = image.resize((224, 224))
     img_array = np.array(img)/255.0
     img_array = np.expand_dims(img_array, axis=0).astype(np.float32)
