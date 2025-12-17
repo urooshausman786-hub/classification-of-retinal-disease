@@ -109,7 +109,7 @@ if uploaded_file:
     image = Image.open(uploaded_file)
 
     # Resize image proportionally if too large
-    max_display_width = 500  # max width in pixels
+    max_display_width = 300  # max width in pixels
     w, h = image.size
     if w > max_display_width:
         new_height = int(h * (max_display_width / w))
